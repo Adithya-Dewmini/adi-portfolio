@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model PageContent {
+  id        String   @id @default(cuid())
+  page      String   @unique
+  title     String?
+  badge     String?
+  subtitle  String?
+  content   Json?
+  status    String   @default("published")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id               String   @id @default(cuid())
+  title            String
+  slug             String   @unique
+  category         String
+  shortDescription String
+  fullDescription  String?
+  problem          String?
+  solution         String?
+  result           String?
+  techStack        String[]
+  featuredImageUrl String?
+  liveUrl          String?
+  githubUrl        String?
+  status           String   @default("draft")
+  featured         Boolean  @default(false)
+  showOnHome       Boolean  @default(false)
+  showOnWorkPage   Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model DesignWork {
+  id             String   @id @default(cuid())
+  title          String
+  slug           String   @unique
+  category       String
+  brandClient    String?
+  description    String
+  imageUrl       String?
+  toolsUsed      String[]
+  status         String   @default("draft")
+  featured       Boolean  @default(false)
+  showOnHome     Boolean  @default(false)
+  showOnWorkPage Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Service {
+  id                 String   @id @default(cuid())
+  title              String
+  slug               String   @unique
+  iconName           String?
+  shortDescription   String
+  fullDescription    String?
+  bulletPoints       String[]
+  status             String   @default("published")
+  featured           Boolean  @default(false)
+  showOnHome         Boolean  @default(true)
+  showOnServicesPage Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String?
+  company   String?
+  message   String
+  imageUrl  String?
+  status    String   @default("draft")
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String?
+  email     String
+  subject   String?
+  message   String
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MediaItem {
+  id           String   @id @default(cuid())
+  title        String?
+  url          String
+  publicId     String
+  resourceType String   @default("image")
+  folder       String?
+  usedIn       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
