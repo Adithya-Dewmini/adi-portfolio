@@ -487,10 +487,12 @@ function mapProjectToHomePreview(project: {
 function mapServiceToHomePreview(service: {
   title: string;
   shortDescription: string;
+  iconName: string | null;
 }) {
   return {
     title: service.title,
-    description: service.shortDescription
+    description: service.shortDescription,
+    iconName: service.iconName ?? undefined
   };
 }
 

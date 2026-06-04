@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Github, Mail, MapPin, MousePointer2, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Code2, Github, LayoutGrid, Mail, MapPin, Megaphone, MousePointer2, ShoppingBag, Sparkles, TerminalSquare, Wrench } from "lucide-react";
 import { CreativeProfileSection } from "@/components/home/creative-profile-section";
 import { DesignPortfolioShowcase } from "@/components/home/design-showcase-section";
 import { FeaturedWorkMarquee } from "@/components/home/featured-work-marquee";
@@ -44,6 +45,7 @@ interface HomeProjectCard {
 interface HomeServiceCard {
   title: string;
   description: string;
+  iconName?: string;
 }
 
 interface HomeDesignCard {
@@ -306,35 +308,174 @@ export function ServicesSection({
   title = "One person who understands the full digital journey.",
   items = defaultServices
 }: ServicesSectionProps) {
+  const iconByName = {
+    "code-2": Code2,
+    "layout-grid": LayoutGrid,
+    "megaphone": Megaphone,
+    "shopping-bag": ShoppingBag,
+    "terminal-square": TerminalSquare,
+    "wrench": Wrench
+  } as const;
+
+  const getServiceCategory = (service: HomeServiceCard) => {
+    const normalized = `${service.title} ${service.description}`.toLowerCase();
+
+    if (normalized.includes("social") || normalized.includes("content") || normalized.includes("brand")) {
+      return "Design";
+    }
+
+    if (normalized.includes("shopify") || normalized.includes("wordpress") || normalized.includes("store") || normalized.includes("commerce")) {
+      return "Operations";
+    }
+
+    if (normalized.includes("maintenance") || normalized.includes("support")) {
+      return "Support";
+    }
+
+    return "Development";
+  };
+
+  const getServiceIcon = (service: HomeServiceCard, index: number) => {
+    if (service.iconName && service.iconName in iconByName) {
+      return iconByName[service.iconName as keyof typeof iconByName];
+    }
+
+    return defaultServices[index % defaultServices.length]?.icon ?? TerminalSquare;
+  };
+
+  const serviceCategories = Array.from(new Set(items.map(getServiceCategory)));
+  const tabs = ["All", ...serviceCategories];
+  const [activeTab, setActiveTab] = useState("All");
+  const visibleServices = items.filter((service) => activeTab === "All" || getServiceCategory(service) === activeTab);
+
   return (
-    <section id="services" className="px-5 py-24 md:px-8">
+    <section id="services" className="relative overflow-hidden px-5 py-24 md:px-8">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_18%,rgba(56,189,248,0.12),transparent_26%),radial-gradient(circle_at_85%_20%,rgba(245,158,11,0.1),transparent_24%),radial-gradient(circle_at_72%_78%,rgba(168,85,247,0.12),transparent_28%)]" />
       <div className="mx-auto max-w-7xl">
-        <SectionHeader
-          eyebrow="Services"
-          title={title}
-          description="From visuals and content to development and maintenance, I can support brands across the complete online workflow."
-        />
-        <div className="grid gap-5 md:grid-cols-3">
-          {items.map((service, index) => {
-            const Icon = defaultServices[index % defaultServices.length]?.icon ?? defaultServices[0].icon;
-            return (
-              <motion.div
-                key={service.title}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
-                className="glass rounded-[2rem] p-7"
-              >
-                <div className="mb-8 grid h-14 w-14 place-items-center rounded-2xl bg-white text-ink">
-                  <Icon className="h-7 w-7" />
+        <div className="relative grid gap-6 xl:grid-cols-[0.82fr_1.18fr] xl:items-start">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7 }}
+            className="glass rounded-[2.4rem] p-7 md:p-8 xl:sticky xl:top-28"
+          >
+            <SectionLabel>Popular Services</SectionLabel>
+            <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight text-white md:text-5xl">
+              {title}
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-8 text-slate-400 md:text-lg">
+              Inspired by the service showcase structure you referenced, this version keeps the same dense offer-led feel while staying aligned with your portfolio tone.
+            </p>
+
+            <div className="mt-7 flex flex-wrap gap-2">
+              {tabs.map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setActiveTab(category)}
+                  className={`rounded-full border px-4 py-2 text-[0.68rem] uppercase tracking-[0.22em] transition ${
+                    activeTab === category
+                      ? "border-sky-300/50 bg-white text-ink"
+                      : "border-white/10 bg-white/[0.04] text-slate-300 hover:border-white/20 hover:bg-white/[0.08]"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(56,189,248,0.1),rgba(15,23,42,0.2),rgba(251,191,36,0.08))] p-5">
+              <p className="text-[0.68rem] uppercase tracking-[0.26em] text-slate-400">Service Snapshot</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
+                <div className="rounded-[1.4rem] border border-white/10 bg-slate-950/45 px-4 py-4">
+                  <p className="font-display text-3xl font-semibold text-white">{items.length}</p>
+                  <p className="mt-1 text-sm text-slate-400">Core service lanes on the homepage</p>
                 </div>
-                <h3 className="font-display text-2xl font-semibold text-white">{service.title}</h3>
-                <p className="mt-4 leading-7 text-slate-400">{service.description}</p>
-              </motion.div>
-            );
-          })}
+                <div className="rounded-[1.4rem] border border-white/10 bg-slate-950/45 px-4 py-4">
+                  <p className="font-display text-3xl font-semibold text-white">{activeTab === "All" ? serviceCategories.length : visibleServices.length}</p>
+                  <p className="mt-1 text-sm text-slate-400">
+                    {activeTab === "All" ? "Delivery angles across build, design, and support" : `${activeTab} services currently in focus`}
+                  </p>
+                </div>
+                <div className="rounded-[1.4rem] border border-white/10 bg-slate-950/45 px-4 py-4">
+                  <p className="font-display text-3xl font-semibold text-white">1</p>
+                  <p className="mt-1 text-sm text-slate-400">Connected workflow instead of separate freelancers</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row xl:flex-col">
+              <Link
+                href="/services"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-semibold text-ink transition hover:scale-[1.02]"
+              >
+                Explore All Services
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 py-3.5 font-semibold text-white transition hover:bg-white/[0.08]"
+              >
+                Start a Project
+              </Link>
+            </div>
+          </motion.div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            {visibleServices.map((service, index) => {
+              const Icon = getServiceIcon(service, index);
+              const category = getServiceCategory(service);
+
+              return (
+                <motion.article
+                  key={service.title}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                  transition={{ duration: 0.45, delay: index * 0.06 }}
+                  className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-6 shadow-[0_24px_80px_rgba(2,8,23,0.34)] backdrop-blur-xl"
+                >
+                  <div className="absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100 [background:radial-gradient(circle_at_top_left,rgba(56,189,248,0.16),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(245,158,11,0.14),transparent_34%)]" />
+                  <div className="relative">
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[0.65rem] uppercase tracking-[0.24em] text-slate-300">
+                        {category}
+                      </span>
+                      <span className="font-display text-3xl text-white/20">0{index + 1}</span>
+                    </div>
+
+                    <div className="mt-8 grid h-14 w-14 place-items-center rounded-2xl border border-white/10 bg-white text-ink shadow-[0_12px_30px_rgba(255,255,255,0.12)]">
+                      <Icon className="h-7 w-7" />
+                    </div>
+
+                    <h3 className="mt-8 font-display text-2xl font-semibold text-white md:text-[1.75rem]">
+                      {service.title}
+                    </h3>
+                    <p className="mt-4 text-sm leading-7 text-slate-400 md:text-base">
+                      {service.description}
+                    </p>
+
+                    <div className="mt-8 flex items-center justify-between gap-4 border-t border-white/10 pt-5">
+                      <p className="text-[0.68rem] uppercase tracking-[0.22em] text-slate-500">
+                        Strategy + Execution
+                      </p>
+                      <Link
+                        href="/services"
+                        className="inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-sky-200"
+                      >
+                        Learn More
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
