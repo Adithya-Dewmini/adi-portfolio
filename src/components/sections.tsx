@@ -1,13 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { ArrowRight, BriefcaseBusiness, Code2, Github, GraduationCap, LayoutGrid, Mail, MapPin, Megaphone, MonitorCog, MousePointer2, ShoppingBag, Sparkles, TerminalSquare, Wrench } from "lucide-react";
+import { ArrowRight, Code2, Github, Instagram, LayoutGrid, Linkedin, Mail, MapPin, Megaphone, MousePointer2, ShoppingBag, Sparkles, TerminalSquare, Wrench } from "lucide-react";
 import { CreativeProfileSection } from "@/components/home/creative-profile-section";
 import { DesignPortfolioShowcase } from "@/components/home/design-showcase-section";
 import { FeaturedWorkMarquee } from "@/components/home/featured-work-marquee";
+import { siteSettings } from "@/lib/admin-data";
 import {
   designWork,
   highlights,
@@ -475,107 +477,128 @@ export function ProcessSection() {
 }
 
 export function AboutSection() {
-  const aboutStats = [
-    {
-      title: "Software Engineering Undergraduate",
-      text: "Technical foundation focused on modern web systems and product thinking.",
-      icon: GraduationCap
-    },
-    {
-      title: "Creative Designer & Freelancer",
-      text: "Brand visuals, campaign assets, and premium digital presentation.",
-      icon: BriefcaseBusiness
-    },
-    {
-      title: "Web, E-commerce & Social Media",
-      text: "One workflow across websites, commerce support, and content execution.",
-      icon: MonitorCog
-    }
+  const [imageError, setImageError] = useState(false);
+
+  const stats = [
+    { value: "3+", label: "Creative disciplines" },
+    { value: "10+", label: "Web & design projects" },
+    { value: "4+", label: "Platforms handled" },
+    { value: "100%", label: "Brand-focused workflow" }
   ];
 
-  const aboutSkills = [
-    "Next.js",
-    "React",
-    "TypeScript",
-    "Node.js",
-    "PostgreSQL",
-    "Neon",
-    "Firebase",
-    "Tailwind CSS",
-    "WordPress",
-    "Shopify",
-    "Photoshop",
-    "Illustrator",
-    "Meta Ads",
-    "Content Planning"
-  ];
+  const socialLinks = [
+    { label: "GitHub", href: siteSettings.github, icon: Github },
+    { label: "LinkedIn", href: siteSettings.linkedIn, icon: Linkedin },
+    { label: "Instagram", href: siteSettings.instagram, icon: Instagram }
+  ].filter((item) => item.href && item.href !== "#");
 
   return (
-    <section id="about" className="relative -mt-8 px-5 py-16 md:-mt-10 md:px-8 md:py-20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(56,189,248,0.12),transparent_24%),radial-gradient(circle_at_78%_24%,rgba(139,92,246,0.12),transparent_24%)]" />
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.025))] p-6 shadow-[0_24px_90px_rgba(2,8,23,0.28)] backdrop-blur-2xl md:p-10 lg:p-12">
-        <div className="pointer-events-none absolute left-[-4rem] top-10 h-44 w-44 rounded-full bg-cyan-400/12 blur-3xl" />
-        <div className="pointer-events-none absolute bottom-[-3rem] right-10 h-44 w-44 rounded-full bg-violet-500/12 blur-3xl" />
-        <div className="relative grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7 }} className="max-w-2xl">
-            <SectionLabel>About Nadun</SectionLabel>
-            <h2 className="font-display text-3xl font-semibold tracking-tight text-white md:text-5xl lg:text-[3.4rem]">
-              I connect software, design, and digital brand execution.
-            </h2>
-            <p className="mt-5 max-w-xl text-base leading-8 text-slate-300 md:text-lg">
-              I&apos;m a Software Engineering undergraduate and creative freelancer from Sri Lanka. I build modern web experiences, create brand visuals, and support digital platforms like Shopify, WordPress, and social media.
+    <section id="about" className="relative -mt-10 overflow-hidden px-5 py-14 md:-mt-14 md:px-8 md:py-18">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#080A0F] via-[#080A0F]/16 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_40%,rgba(56,189,248,0.14),transparent_26%),radial-gradient(circle_at_32%_68%,rgba(14,165,233,0.05),transparent_20%)] [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.12)_14%,rgba(0,0,0,0.72)_24%,black_34%,black_100%)]" />
+      <div className="relative mx-auto max-w-7xl">
+        <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7 }} className="relative order-1">
+            <div className="relative mx-auto max-w-[29rem]">
+              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[92%] w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.36),rgba(14,165,233,0.18),rgba(59,130,246,0.06),transparent_74%)] blur-3xl" />
+              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[88%] w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/18" />
+              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[104%] w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-cyan-200/45 [transform:translate(-50%,-50%)_rotate(-18deg)] [mask-image:linear-gradient(135deg,transparent_8%,black_22%,black_74%,transparent_92%)]" />
+              <div className="pointer-events-none absolute left-[57%] top-[56%] h-[86%] w-[84%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-violet-300/22 [transform:translate(-50%,-50%)_rotate(24deg)] [mask-image:linear-gradient(135deg,transparent_16%,black_30%,black_72%,transparent_88%)]" />
+
+              <div className="relative mx-auto aspect-square w-full max-w-[24rem] overflow-hidden rounded-full border border-cyan-300/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_0_70px_rgba(56,189,248,0.12)]">
+                {imageError ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.2),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.18),transparent_28%),linear-gradient(180deg,#111827,#0b1220)]">
+                    <div className="grid h-28 w-28 place-items-center rounded-full border border-white/10 bg-white/[0.06] text-4xl font-semibold text-white">
+                      NP
+                    </div>
+                  </div>
+                ) : (
+                  <Image
+                    src="/Adithya-profile.png"
+                    alt="Nadun Peiris portrait"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    onError={() => setImageError(true)}
+                  />
+                )}
+                <div className="pointer-events-none absolute inset-0 rounded-full border border-white/8" />
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.06 }} className="relative order-2 max-w-2xl">
+            <div className="pointer-events-none absolute -left-12 top-12 h-44 w-44 rounded-full bg-cyan-400/6 blur-3xl" />
+            <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400">
+              About Me
             </p>
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <p className="mt-6 text-base font-medium text-slate-200">
+              Hello, I&apos;m
+            </p>
+            <h2 className="mt-2 font-display text-4xl font-bold tracking-tight text-white md:text-6xl">
+              Nadun Peiris
+            </h2>
+            <p className="mt-3 text-xl font-medium text-slate-100 md:text-2xl">
+              And I&apos;m a <span className="text-sky-300">Creative Software Engineer</span>
+            </p>
+            <p className="mt-6 max-w-xl text-base leading-8 text-slate-400 md:text-lg">
+              I&apos;m a Software Engineering undergraduate from Sri Lanka, blending web development, graphic design, e-commerce support, and social media content to create polished digital experiences for modern brands.
+            </p>
+
+            {socialLinks.length ? (
+              <div className="mt-7 flex flex-wrap gap-2.5">
+                {socialLinks.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex h-10 w-10 items-center justify-center border border-cyan-300/18 bg-slate-950/35 text-sky-200 transition hover:-translate-y-0.5 hover:border-cyan-300/35 hover:text-white"
+                      aria-label={item.label}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </a>
+                  );
+                })}
+              </div>
+            ) : null}
+
+            <div className="mt-7 flex flex-col gap-4 sm:flex-row">
+              <Link
+                href="/work"
+                className="inline-flex min-w-[158px] items-center justify-center gap-2 border border-sky-300/30 bg-[linear-gradient(135deg,rgba(56,189,248,0.34),rgba(14,165,233,0.22))] px-6 py-3.5 font-medium text-cyan-50 shadow-[0_12px_30px_rgba(56,189,248,0.18)] transition hover:border-sky-200/40 hover:bg-[linear-gradient(135deg,rgba(56,189,248,0.42),rgba(14,165,233,0.28))]"
+              >
+                View My Work
+                <ArrowRight className="h-4 w-4" />
+              </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-medium text-ink transition hover:scale-[1.02]"
+                className="inline-flex min-w-[158px] items-center justify-center gap-2 border border-white/14 bg-transparent px-6 py-3.5 font-medium text-white transition hover:border-cyan-300/24 hover:bg-white/[0.04]"
               >
-                More About Me
+                Contact Me
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </motion.div>
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.08 }}>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {aboutStats.map((item) => {
-                const Icon = item.icon;
+        </div>
 
-                return (
-                  <article
-                    key={item.title}
-                    className="rounded-[1.7rem] border border-white/10 bg-slate-950/35 p-5 backdrop-blur-xl"
-                  >
-                    <div className="grid h-11 w-11 place-items-center rounded-2xl border border-cyan-300/20 bg-cyan-400/10 text-cyan-200">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="mt-4 font-display text-lg font-semibold text-white">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-400">
-                      {item.text}
-                    </p>
-                  </article>
-                );
-              })}
+        <div className="mt-14 grid grid-cols-2 gap-y-8 md:grid-cols-4 md:gap-y-0">
+          {stats.map((item, index) => (
+            <div
+              key={item.label}
+              className={`text-center md:px-6 ${index !== 0 ? "md:border-l md:border-white/10" : ""}`}
+            >
+              <p className="font-display text-3xl font-semibold text-white md:text-5xl">
+                {item.value}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                {item.label}
+              </p>
             </div>
-            <div className="mt-5 rounded-[1.8rem] border border-white/10 bg-slate-950/30 p-5 backdrop-blur-xl md:p-6">
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="font-display text-xl font-semibold text-white">
-                  Tools I work with
-                </h3>
-                <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
-                  Daily Stack
-                </span>
-              </div>
-              <div className="mt-5 flex flex-wrap gap-2.5">
-                {aboutSkills.map((skill) => (
-                  <span key={skill} className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-medium text-slate-300">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+          ))}
         </div>
       </div>
     </section>
