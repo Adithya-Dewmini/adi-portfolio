@@ -358,8 +358,8 @@ export function ServicesSection({
   const renderedServices = visibleServices.length ? visibleServices : fallbackVisibleServices;
 
   return (
-    <section id="services" className="relative overflow-hidden bg-[#1f1e1d] px-5 py-24 md:px-8 md:py-28">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_8%,rgba(128,109,33,0.22),transparent_28%),linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]" />
+    <section id="services" className="relative overflow-hidden px-5 py-24 md:px-8 md:py-28">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_8%,rgba(56,189,248,0.12),transparent_28%),radial-gradient(circle_at_86%_18%,rgba(139,92,246,0.12),transparent_24%),linear-gradient(180deg,rgba(8,10,15,0),rgba(8,10,15,0.14))]" />
       <div className="relative mx-auto max-w-7xl">
         <motion.div
           variants={fadeUp}
@@ -386,18 +386,18 @@ export function ServicesSection({
           className="mx-auto mt-12 flex max-w-4xl flex-col gap-4 sm:flex-row sm:justify-center"
         >
           {tabs.map((category) => (
-            <button
-              key={category}
-              type="button"
-              onClick={() => setActiveTab(category)}
-              className={`min-w-[220px] rounded-full border px-8 py-5 text-xl font-semibold transition md:min-w-[290px] ${
-                activeTab === category
-                  ? "border-[#3d3a31] bg-transparent text-[#ffe100]"
-                  : "border-transparent bg-[#3a3938] text-white hover:bg-[#444341]"
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setActiveTab(category)}
+                  className={`min-w-[220px] rounded-full border px-8 py-5 text-xl font-semibold transition md:min-w-[290px] ${
+                    activeTab === category
+                  ? "border-sky-300/25 bg-transparent text-sky-200"
+                  : "border-transparent bg-white/[0.08] text-white hover:bg-white/[0.12]"
               }`}
-            >
-              {category}
-            </button>
+                >
+                  {category}
+                </button>
           ))}
         </motion.div>
 
@@ -414,9 +414,9 @@ export function ServicesSection({
                 viewport={{ once: true }}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.45, delay: index * 0.06 }}
-                className="flex min-h-[30rem] flex-col rounded-[2rem] border border-[#3b3936] bg-[#242321] px-8 py-10 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]"
+                className="flex min-h-[30rem] flex-col rounded-[2rem] border border-white/10 bg-[#101522]/90 px-8 py-10 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]"
               >
-                <div className="mx-auto grid h-36 w-36 place-items-center rounded-full bg-[#3a3938] text-[#ffe100]">
+                <div className="mx-auto grid h-36 w-36 place-items-center rounded-full bg-white/[0.08] text-sky-200">
                   <Icon className="h-14 w-14 stroke-[1.6]" />
                 </div>
 
