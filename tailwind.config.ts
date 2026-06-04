@@ -6,7 +6,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
-        display: ["var(--font-space)", "Space Grotesk", "Inter", "sans-serif"]
+        display: ["var(--font-space)", "Space Grotesk", "Inter", "system-ui", "sans-serif"]
       },
       colors: {
         ink: "#080A0F",

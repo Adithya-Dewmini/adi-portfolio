@@ -30,6 +30,7 @@ export default async function Home() {
           showIdentityCards={pageContent.showIdentityCards}
         />
       ) : null}
+      {pageContent.showAboutPreview ? <AboutSection /> : null}
       {pageContent.showFeaturedWork ? (
         <WorkSection items={projects} />
       ) : null}
@@ -38,7 +39,6 @@ export default async function Home() {
         <ServicesSection title={pageContent.featuredServicesSectionTitle} items={services} />
       ) : null}
       <ProcessSection />
-      {pageContent.showAboutPreview ? <AboutSection text={pageContent.aboutPreviewText} /> : null}
       {pageContent.showFinalCta ? <ContactSection title={pageContent.finalCtaTitle} text={pageContent.finalCtaText} /> : null}
       <Footer />
     </main>

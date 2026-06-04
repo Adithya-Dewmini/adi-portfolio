@@ -3,8 +3,17 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"]
+});
+
+const space = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
+  weight: ["500", "600", "700"]
+});
 
 export const metadata: Metadata = {
   title: "Nadun Peiris | Creative Software Engineer",

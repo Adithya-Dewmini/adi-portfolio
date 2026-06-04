@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { ArrowRight, Code2, Github, LayoutGrid, Mail, MapPin, Megaphone, MousePointer2, ShoppingBag, Sparkles, TerminalSquare, Wrench } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, Code2, Github, GraduationCap, LayoutGrid, Mail, MapPin, Megaphone, MonitorCog, MousePointer2, ShoppingBag, Sparkles, TerminalSquare, Wrench } from "lucide-react";
 import { CreativeProfileSection } from "@/components/home/creative-profile-section";
 import { DesignPortfolioShowcase } from "@/components/home/design-showcase-section";
 import { FeaturedWorkMarquee } from "@/components/home/featured-work-marquee";
@@ -15,8 +15,7 @@ import {
   navItems,
   process,
   projects as defaultProjects,
-  services as defaultServices,
-  skills
+  services as defaultServices
 } from "@/lib/data";
 import type { EditableIdentityCard } from "@/lib/admin-data";
 
@@ -68,10 +67,6 @@ interface DesignSectionProps {
   items?: HomeDesignCard[];
 }
 
-interface AboutSectionProps {
-  text?: string;
-}
-
 interface ContactSectionProps {
   title?: string;
   text?: string;
@@ -116,7 +111,7 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/70 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
         <Link href="/" className="group flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-sm font-black text-ink transition group-hover:rotate-6">NP</span>
+          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-sm font-bold text-ink transition group-hover:rotate-6">NP</span>
           <span className="hidden leading-tight sm:block">
             <span className="block font-display font-semibold text-white">Nadun Peiris</span>
             <span className="block text-xs text-slate-400">Creative Software Engineer</span>
@@ -358,8 +353,9 @@ export function ServicesSection({
   const renderedServices = visibleServices.length ? visibleServices : fallbackVisibleServices;
 
   return (
-    <section id="services" className="relative overflow-hidden px-5 py-24 md:px-8 md:py-28">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_8%,rgba(56,189,248,0.12),transparent_28%),radial-gradient(circle_at_86%_18%,rgba(139,92,246,0.12),transparent_24%),linear-gradient(180deg,rgba(8,10,15,0),rgba(8,10,15,0.14))]" />
+    <section id="services" className="relative -mt-14 overflow-hidden px-5 pb-24 pt-10 md:-mt-20 md:px-8 md:pb-28 md:pt-14">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-transparent via-[#080A0F]/20 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_62%,rgba(56,189,248,0.1),transparent_26%),radial-gradient(circle_at_82%_68%,rgba(139,92,246,0.1),transparent_24%),linear-gradient(180deg,rgba(8,10,15,0),rgba(8,10,15,0.08)_24%,rgba(8,10,15,0.12))]" />
       <div className="relative mx-auto max-w-7xl">
         <motion.div
           variants={fadeUp}
@@ -478,29 +474,106 @@ export function ProcessSection() {
   );
 }
 
-export function AboutSection({
-  text = "I’m a software engineering undergraduate from Sri Lanka with hands-on experience in full-stack development, graphic design, e-commerce support, and social media handling. I enjoy building digital products that do not only work technically, but also look premium and communicate clearly."
-}: AboutSectionProps) {
+export function AboutSection() {
+  const aboutStats = [
+    {
+      title: "Software Engineering Undergraduate",
+      text: "Technical foundation focused on modern web systems and product thinking.",
+      icon: GraduationCap
+    },
+    {
+      title: "Creative Designer & Freelancer",
+      text: "Brand visuals, campaign assets, and premium digital presentation.",
+      icon: BriefcaseBusiness
+    },
+    {
+      title: "Web, E-commerce & Social Media",
+      text: "One workflow across websites, commerce support, and content execution.",
+      icon: MonitorCog
+    }
+  ];
+
+  const aboutSkills = [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Node.js",
+    "PostgreSQL",
+    "Neon",
+    "Firebase",
+    "Tailwind CSS",
+    "WordPress",
+    "Shopify",
+    "Photoshop",
+    "Illustrator",
+    "Meta Ads",
+    "Content Planning"
+  ];
+
   return (
-    <section id="about" className="px-5 py-24 md:px-8">
-      <div className="mx-auto max-w-7xl rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-6 md:p-10">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7 }}>
+    <section id="about" className="relative -mt-8 px-5 py-16 md:-mt-10 md:px-8 md:py-20">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(56,189,248,0.12),transparent_24%),radial-gradient(circle_at_78%_24%,rgba(139,92,246,0.12),transparent_24%)]" />
+      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.025))] p-6 shadow-[0_24px_90px_rgba(2,8,23,0.28)] backdrop-blur-2xl md:p-10 lg:p-12">
+        <div className="pointer-events-none absolute left-[-4rem] top-10 h-44 w-44 rounded-full bg-cyan-400/12 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-[-3rem] right-10 h-44 w-44 rounded-full bg-violet-500/12 blur-3xl" />
+        <div className="relative grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7 }} className="max-w-2xl">
             <SectionLabel>About Nadun</SectionLabel>
-            <h2 className="font-display text-3xl font-semibold tracking-tight text-white md:text-5xl">
-              I sit between engineering, design, and digital business.
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-white md:text-5xl lg:text-[3.4rem]">
+              I connect software, design, and digital brand execution.
             </h2>
-          </motion.div>
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 }}>
-            <p className="text-lg leading-8 text-slate-300">
-              {text}
+            <p className="mt-5 max-w-xl text-base leading-8 text-slate-300 md:text-lg">
+              I&apos;m a Software Engineering undergraduate and creative freelancer from Sri Lanka. I build modern web experiences, create brand visuals, and support digital platforms like Shopify, WordPress, and social media.
             </p>
-            <div className="mt-8 flex flex-wrap gap-2">
-              {skills.map((skill) => (
-                <span key={skill} className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300">
-                  {skill}
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-medium text-ink transition hover:scale-[1.02]"
+              >
+                More About Me
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </motion.div>
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.08 }}>
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {aboutStats.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <article
+                    key={item.title}
+                    className="rounded-[1.7rem] border border-white/10 bg-slate-950/35 p-5 backdrop-blur-xl"
+                  >
+                    <div className="grid h-11 w-11 place-items-center rounded-2xl border border-cyan-300/20 bg-cyan-400/10 text-cyan-200">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-4 font-display text-lg font-semibold text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-400">
+                      {item.text}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
+            <div className="mt-5 rounded-[1.8rem] border border-white/10 bg-slate-950/30 p-5 backdrop-blur-xl md:p-6">
+              <div className="flex items-center justify-between gap-4">
+                <h3 className="font-display text-xl font-semibold text-white">
+                  Tools I work with
+                </h3>
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
+                  Daily Stack
                 </span>
-              ))}
+              </div>
+              <div className="mt-5 flex flex-wrap gap-2.5">
+                {aboutSkills.map((skill) => (
+                  <span key={skill} className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-medium text-slate-300">
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
           </motion.div>
         </div>
