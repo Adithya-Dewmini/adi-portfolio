@@ -111,7 +111,7 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/70 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
         <Link href="/" className="group flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-sm font-bold text-ink transition group-hover:rotate-6">NP</span>
+          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-sm font-semibold text-ink transition group-hover:rotate-6">NP</span>
           <span className="hidden leading-tight sm:block">
             <span className="block font-display font-semibold text-white">Nadun Peiris</span>
             <span className="block text-xs text-slate-400">Creative Software Engineer</span>
@@ -130,7 +130,7 @@ export function Navbar() {
         </div>
         <Link
           href={isHomePage ? "#contact" : "/#contact"}
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white px-5 py-2.5 text-sm font-semibold text-ink transition hover:scale-105"
+          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white px-5 py-2.5 text-sm font-medium text-ink transition hover:scale-105"
         >
           Let’s talk <ArrowRight className="h-4 w-4" />
         </Link>
@@ -207,10 +207,10 @@ export function Hero({
             {subtitle}
           </p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-            <Link href={primaryCtaLink} className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink transition hover:scale-105">
+            <Link href={primaryCtaLink} className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-medium text-ink transition hover:scale-105">
               {primaryCtaText} <MousePointer2 className="h-5 w-5" />
             </Link>
-            <Link href={secondaryCtaLink} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-7 py-4 font-semibold text-white transition hover:bg-white/10">
+            <Link href={secondaryCtaLink} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-7 py-4 font-medium text-white transition hover:bg-white/10">
               {secondaryCtaText} <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
@@ -218,7 +218,7 @@ export function Hero({
             {highlights.map((item) => (
               <div key={item.label} className="glass rounded-3xl p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{item.label}</p>
-                <p className="mt-2 text-sm font-semibold text-white">{item.value}</p>
+                <p className="mt-2 text-sm font-medium text-white">{item.value}</p>
               </div>
             ))}
           </div>
@@ -386,7 +386,7 @@ export function ServicesSection({
                   key={category}
                   type="button"
                   onClick={() => setActiveTab(category)}
-                  className={`min-w-[220px] rounded-full border px-8 py-5 text-xl font-semibold transition md:min-w-[290px] ${
+              className={`min-w-[220px] rounded-full border px-8 py-5 text-xl font-medium transition md:min-w-[290px] ${
                     activeTab === category
                   ? "border-sky-300/25 bg-transparent text-sky-200"
                   : "border-transparent bg-white/[0.08] text-white hover:bg-white/[0.12]"
@@ -427,7 +427,7 @@ export function ServicesSection({
                 <div className="mt-auto pt-10 text-center">
                   <Link
                     href="/services"
-                    className="inline-flex items-center gap-4 text-xl font-semibold text-white transition hover:text-[#ffe100]"
+                    className="inline-flex items-center gap-4 text-xl font-medium text-white transition hover:text-[#ffe100]"
                   >
                     <span className="text-2xl leading-none">→</span>
                     Learn More
@@ -597,17 +597,17 @@ export function ContactSection({
         className="mx-auto max-w-5xl overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/[0.1] via-white/[0.045] to-sky-400/10 p-8 text-center shadow-glow md:p-14"
       >
         <SectionLabel>Contact</SectionLabel>
-        <h2 className="font-display text-4xl font-bold tracking-tight text-white md:text-6xl">
+        <h2 className="font-display text-4xl font-semibold tracking-tight text-white md:text-6xl">
           {title}
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">
           {text}
         </p>
         <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row">
-          <a href="mailto:nadunthusharapeiris@gmail.com" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink transition hover:scale-105">
+          <a href="mailto:nadunthusharapeiris@gmail.com" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-medium text-ink transition hover:scale-105">
             <Mail className="h-5 w-5" /> Email me
           </a>
-          <a href="https://github.com/Nadun-Peiris" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-7 py-4 font-semibold text-white transition hover:bg-white/10">
+          <a href="https://github.com/Nadun-Peiris" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-7 py-4 font-medium text-white transition hover:bg-white/10">
             <Github className="h-5 w-5" /> GitHub
           </a>
         </div>

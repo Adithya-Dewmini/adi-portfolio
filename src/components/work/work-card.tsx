@@ -95,7 +95,7 @@ export function WorkCard({
           ) : null}
         </div>
 
-        <h3 className="mt-5 font-display text-2xl font-bold tracking-tight text-white md:text-[1.9rem]">
+        <h3 className="mt-5 font-display text-2xl font-semibold tracking-tight text-white md:text-[1.9rem]">
           {title}
         </h3>
 

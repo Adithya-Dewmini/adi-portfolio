@@ -119,7 +119,7 @@ export function DesignPortfolioShowcase({ items = [] }: Readonly<DesignPortfolio
 
           <Link
             href="/work#design-work"
-            className="inline-flex items-center gap-2 self-start rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/[0.08] hover:text-cyan-100 lg:self-auto"
+            className="inline-flex items-center gap-2 self-start rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-medium text-white transition hover:border-cyan-300/40 hover:bg-white/[0.08] hover:text-cyan-100 lg:self-auto"
           >
             View Full Design Portfolio
             <ArrowRight className="h-4 w-4" />

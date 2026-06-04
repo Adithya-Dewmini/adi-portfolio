@@ -5,8 +5,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
-        display: ["var(--font-space)", "Space Grotesk", "Inter", "system-ui", "sans-serif"]
+        sans: ["var(--font-manrope)", "Manrope", "system-ui", "sans-serif"],
+        display: ["var(--font-manrope)", "Manrope", "system-ui", "sans-serif"]
       },
       colors: {
         ink: "#080A0F",

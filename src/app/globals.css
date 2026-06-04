@@ -18,6 +18,7 @@ html {
 
 body {
   margin: 0;
+  font-weight: 400;
   background:
     radial-gradient(circle at 20% 5%, rgba(56, 189, 248, 0.18), transparent 34rem),
     radial-gradient(circle at 85% 10%, rgba(139, 92, 246, 0.18), transparent 30rem),

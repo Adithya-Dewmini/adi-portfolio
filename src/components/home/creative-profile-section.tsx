@@ -124,14 +124,14 @@ export function CreativeProfileSection() {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/work#design-work"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-semibold text-ink shadow-[0_16px_38px_rgba(255,255,255,0.12)] transition hover:scale-[1.02] hover:bg-slate-100"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-medium text-ink shadow-[0_16px_38px_rgba(255,255,255,0.12)] transition hover:scale-[1.02] hover:bg-slate-100"
               >
                 View Design Work
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 py-3.5 font-semibold text-white backdrop-blur-xl transition hover:border-cyan-400/40 hover:bg-white/[0.06]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 py-3.5 font-medium text-white backdrop-blur-xl transition hover:border-cyan-400/40 hover:bg-white/[0.06]"
               >
                 Contact Me
               </Link>
