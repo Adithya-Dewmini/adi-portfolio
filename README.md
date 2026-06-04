@@ -1,4 +1,4 @@
-# Nadun Portfolio
+# Adithya Portfolio
 
 A premium creative developer portfolio built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and Lucide Icons.
 
