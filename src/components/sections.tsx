@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight, Code2, Github, Instagram, LayoutGrid, Linkedin, Mail, MapPin, Megaphone, MousePointer2, ShoppingBag, Sparkles, TerminalSquare, Wrench } from "lucide-react";
 import { CreativeProfileSection } from "@/components/home/creative-profile-section";
 import { DesignPortfolioShowcase } from "@/components/home/design-showcase-section";
@@ -78,6 +78,13 @@ const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 }
 };
+
+const HERO_ROLE_CYCLE = [
+  "Creative Software Engineer",
+  "Developer",
+  "Designer",
+  "Digital Operator"
+] as const;
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -160,9 +167,9 @@ function getIdentityVisual(title: string, index: number) {
 }
 
 export function Hero({
-  badge = "Available for web, design & digital projects",
-  title = "I design, build & grow digital brands.",
-  subtitle = "Software engineering undergraduate, full-stack web developer, graphic designer, freelancer, and social media creative — combining code, visuals, and digital strategy into premium online experiences.",
+  badge = "Hey there, I’m",
+  title = "Nadun Peiris",
+  subtitle = "I create modern websites, brand visuals, e-commerce content, and digital systems that help businesses look professional and work better online.",
   primaryCtaText = "View selected work",
   primaryCtaLink = "/work",
   secondaryCtaText = "Start a project",
@@ -175,39 +182,151 @@ export function Hero({
   })),
   showIdentityCards = true
 }: HeroProps) {
-  const visibleIdentityCards = identityCards.filter((card) => card.enabled !== false);
+  const [typedRole, setTypedRole] = useState("");
+  const [activeRoleIndex, setActiveRoleIndex] = useState(0);
+  const [isDeletingRole, setIsDeletingRole] = useState(false);
+  const [heroImageError, setHeroImageError] = useState(false);
+
+  const identityCardFallbacks = [
+    "I build modern, responsive, and scalable web experiences.",
+    "I create brand visuals, UI layouts, and social media creatives.",
+    "I support Shopify, WordPress, content updates, and digital campaigns."
+  ];
+
+  const enabledIdentityCards = identityCards.filter((card) => card.enabled).slice(0, 3);
+
+  const visibleIdentityCards = (enabledIdentityCards.length
+    ? enabledIdentityCards
+    : [
+        { id: "hero-developer", title: "Developer", description: identityCardFallbacks[0], enabled: true },
+        { id: "hero-designer", title: "Designer", description: identityCardFallbacks[1], enabled: true },
+        { id: "hero-operator", title: "Digital Operator", description: identityCardFallbacks[2], enabled: true }
+      ]).map((card, index) => {
+    const normalized = card.title.toLowerCase();
+    const icon = normalized.includes("developer")
+      ? Code2
+      : normalized.includes("operator")
+        ? Megaphone
+        : getIdentityVisual(card.title, index).icon;
+
+    const accentClassName = normalized.includes("developer")
+      ? "from-sky-400/18 via-cyan-400/10 to-transparent"
+      : normalized.includes("operator")
+        ? "from-amber-300/16 via-orange-300/10 to-transparent"
+        : "from-violet-400/18 via-fuchsia-400/10 to-transparent";
+
+    return {
+      id: card.id,
+      title: card.title,
+      description: card.description || identityCardFallbacks[index] || identityCardFallbacks[0],
+      icon,
+      accentClassName
+    };
+  });
+
+  const socialLinks = [
+    { label: "GitHub", href: siteSettings.github, icon: Github },
+    { label: "LinkedIn", href: siteSettings.linkedIn, icon: Linkedin },
+    { label: "Instagram", href: siteSettings.instagram, icon: Instagram }
+  ].filter((item) => item.href && item.href !== "#");
+
+  useEffect(() => {
+    const currentRole = HERO_ROLE_CYCLE[activeRoleIndex];
+    const isFullyTyped = typedRole === currentRole;
+    const isEmpty = typedRole.length === 0;
+    const delay = !isDeletingRole && isFullyTyped
+      ? 1500
+      : isDeletingRole && isEmpty
+        ? 280
+        : isDeletingRole
+          ? 36
+          : 62;
+
+    const timer = window.setTimeout(() => {
+      if (!isDeletingRole && !isFullyTyped) {
+        setTypedRole(currentRole.slice(0, typedRole.length + 1));
+        return;
+      }
+
+      if (!isDeletingRole && isFullyTyped) {
+        setIsDeletingRole(true);
+        return;
+      }
+
+      if (isDeletingRole && !isEmpty) {
+        setTypedRole(currentRole.slice(0, typedRole.length - 1));
+        return;
+      }
+
+      setIsDeletingRole(false);
+      setActiveRoleIndex((currentIndex) => (currentIndex + 1) % HERO_ROLE_CYCLE.length);
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [activeRoleIndex, isDeletingRole, typedRole]);
 
   return (
-    <section id="home" className="relative min-h-screen overflow-hidden px-5 pt-32 md:px-8">
+    <section id="home" className="relative min-h-[88vh] overflow-hidden px-5 pt-32 md:px-8">
       <div className="grid-bg absolute inset-0" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-[#070A12]" />
       <motion.div
         aria-hidden
         animate={{ rotate: 360 }}
         transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="absolute right-[-16rem] top-24 h-[34rem] w-[34rem] rounded-full border border-white/10 bg-gradient-to-br from-sky-400/20 via-violet-500/10 to-transparent blur-2xl"
+        className="absolute right-[-18rem] top-14 h-[38rem] w-[38rem] rounded-full border border-white/10 bg-gradient-to-br from-sky-400/14 via-violet-500/10 to-transparent blur-3xl"
       />
-      <div className="relative mx-auto grid max-w-7xl items-center gap-12 pb-24 md:grid-cols-[1.1fr_0.9fr]">
-        <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.75 }}>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300">
+      <motion.div
+        aria-hidden
+        animate={{ y: [0, -16, 0], opacity: [0.48, 0.66, 0.48] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-[8%] top-36 h-32 w-32 rounded-full bg-sky-400/12 blur-3xl"
+      />
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 pb-20 md:grid-cols-[1.02fr_0.98fr]">
+        <motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.75 }} className="max-w-3xl">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300">
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-300 opacity-75" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-sky-300" />
             </span>
             {badge}
           </div>
-          <h1 className="font-display text-5xl font-bold tracking-tight text-white md:text-7xl lg:text-8xl">
-            {title.includes("digital brands.") ? (
-              <>
-                {title.replace("digital brands.", "")}
-                <span className="gradient-text">digital brands.</span>
-              </>
-            ) : (
-              title
-            )}
+          <h1 className="font-display text-5xl font-bold tracking-tight text-white md:text-7xl">
+            {title}
           </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl">
+          <div className="mt-5 min-h-[2.5rem] md:min-h-[3rem]">
+            <p className="text-2xl font-semibold text-slate-100 md:text-4xl">
+              {typedRole}
+              <span className="ml-1 inline-block h-6 w-px animate-pulse bg-sky-300 align-middle md:h-9" />
+            </p>
+          </div>
+          <p className="mt-3 text-base font-medium text-sky-200 md:text-lg">
+            Developer • Designer • Digital Operator
+          </p>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl">
             {subtitle}
           </p>
+
+          {socialLinks.length ? (
+            <div className="mt-7 flex flex-wrap gap-3">
+              {socialLinks.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm font-medium text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/28 hover:text-white"
+                  >
+                    <Icon className="h-4 w-4" />
+                    {item.label}
+                  </a>
+                );
+              })}
+            </div>
+          ) : null}
+
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
             <Link href={primaryCtaLink} className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-medium text-ink transition hover:scale-105">
               {primaryCtaText} <MousePointer2 className="h-5 w-5" />
@@ -215,14 +334,6 @@ export function Hero({
             <Link href={secondaryCtaLink} className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-7 py-4 font-medium text-white transition hover:bg-white/10">
               {secondaryCtaText} <ArrowRight className="h-5 w-5" />
             </Link>
-          </div>
-          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
-            {highlights.map((item) => (
-              <div key={item.label} className="glass rounded-3xl p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{item.label}</p>
-                <p className="mt-2 text-sm font-medium text-white">{item.value}</p>
-              </div>
-            ))}
           </div>
         </motion.div>
 
@@ -232,52 +343,78 @@ export function Hero({
           transition={{ duration: 0.8, delay: 0.15 }}
           className="relative"
         >
-          <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-sky-400/20 via-violet-500/20 to-transparent blur-2xl" />
-          <div className="glass relative overflow-hidden rounded-[2.5rem] p-5 shadow-card">
-            <div className="rounded-[2rem] border border-white/10 bg-ink/80 p-5">
-              <div className="mb-5 flex items-center justify-between">
-                <div className="flex gap-2">
-                  <span className="h-3 w-3 rounded-full bg-red-400" />
-                  <span className="h-3 w-3 rounded-full bg-yellow-300" />
-                  <span className="h-3 w-3 rounded-full bg-green-400" />
+          <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-sky-400/16 via-violet-500/16 to-transparent blur-3xl" />
+          <motion.div
+            animate={{ y: [0, -10, 0], rotate: [0, 0.35, 0] }}
+            transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut" }}
+            className="glass relative overflow-hidden rounded-[2.5rem] p-5 shadow-card"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.14),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.12),transparent_28%)]" />
+            <div className="relative rounded-[2rem] border border-white/10 bg-ink/82 p-5 md:p-6">
+              <div className="flex items-center justify-between gap-4">
+                <span className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[0.68rem] uppercase tracking-[0.22em] text-slate-300">
+                  Code + Design + Digital
+                </span>
+                <div className="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2">
+                  <div className="relative h-10 w-10 overflow-hidden rounded-full border border-cyan-300/20 bg-slate-900">
+                    {heroImageError ? (
+                      <div className="grid h-full w-full place-items-center text-xs font-semibold text-white">NP</div>
+                    ) : (
+                      <Image
+                        src="/Adithya-profile.png"
+                        alt="Nadun Peiris portrait"
+                        fill
+                        className="object-cover"
+                        sizes="40px"
+                        onError={() => setHeroImageError(true)}
+                      />
+                    )}
+                  </div>
+                  <div className="hidden sm:block">
+                    <p className="text-sm font-medium text-white">Nadun Peiris</p>
+                    <p className="text-xs text-slate-400">Creative Software Engineer</p>
+                  </div>
                 </div>
-                <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-400">portfolio.tsx</span>
               </div>
-              <div className="space-y-4 font-mono text-sm text-slate-300">
-                <p><span className="text-violet-300">const</span> identity = &#123;</p>
-                <p className="pl-5"><span className="text-sky-300">role</span>: &#34;Creative Developer&#34;,</p>
-                <p className="pl-5"><span className="text-sky-300">skills</span>: [&#34;Code&#34;, &#34;Design&#34;, &#34;Social&#34;],</p>
-                <p className="pl-5"><span className="text-sky-300">mission</span>: &#34;Build premium digital experiences&#34;,</p>
-                <p>&#125;</p>
-              </div>
-              <div className="mt-8 grid gap-4">
+
+              <div className="mt-6 grid gap-4">
                 {showIdentityCards
                   ? visibleIdentityCards.map((card, index) => {
-                      const visual = getIdentityVisual(card.title, index);
-                      const Icon = visual.icon;
-                  return (
-                    <motion.div
-                      key={card.id}
-                      whileHover={{ x: 8, scale: 1.02 }}
-                      className={`rounded-3xl border border-white/10 bg-gradient-to-br ${visual.accent} p-5`}
-                    >
-                      <div className="flex items-start gap-4">
-                        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white/10">
-                          <Icon className="h-6 w-6 text-white" />
-                        </div>
-                        <div>
-                          <p className="text-xs text-slate-400">0{index + 1}</p>
-                          <h3 className="font-display text-xl font-semibold text-white">{card.title}</h3>
-                          <p className="mt-1 text-sm leading-6 text-slate-300">{card.description}</p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
+                      const Icon = card.icon;
+                      return (
+                        <motion.article
+                          key={card.id}
+                          initial={{ opacity: 0, x: 22 }}
+                          animate={{
+                            opacity: 1,
+                            x: 0,
+                            y: [0, index % 2 === 0 ? -6 : 6, 0]
+                          }}
+                          transition={{
+                            opacity: { duration: 0.45, delay: 0.18 + index * 0.1 },
+                            x: { duration: 0.45, delay: 0.18 + index * 0.1 },
+                            y: { duration: 5.8 + index * 0.5, repeat: Infinity, ease: "easeInOut" }
+                          }}
+                          whileHover={{ x: 6, scale: 1.01 }}
+                          className={`rounded-[2rem] border border-white/10 bg-gradient-to-br ${card.accentClassName} p-5 backdrop-blur-xl`}
+                        >
+                          <div className="flex items-start gap-4">
+                            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/10">
+                              <Icon className="h-5 w-5 text-white" />
+                            </div>
+                            <div>
+                              <p className="text-xs uppercase tracking-[0.18em] text-slate-500">0{index + 1}</p>
+                              <h3 className="mt-1 font-display text-xl font-semibold text-white">{card.title}</h3>
+                              <p className="mt-2 text-sm leading-6 text-slate-300">{card.description}</p>
+                            </div>
+                          </div>
+                        </motion.article>
+                      );
                     })
                   : null}
               </div>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
@@ -477,129 +614,101 @@ export function ProcessSection() {
 }
 
 export function AboutSection() {
-  const [imageError, setImageError] = useState(false);
-
-  const stats = [
-    { value: "3+", label: "Creative disciplines" },
-    { value: "10+", label: "Web & design projects" },
-    { value: "4+", label: "Platforms handled" },
-    { value: "100%", label: "Brand-focused workflow" }
+  const roleCards = [
+    {
+      title: "Developer",
+      text: "I build modern websites, dashboards, and digital systems using technologies like Next.js, React, TypeScript, Node.js, and databases.",
+      icon: Code2,
+      accentClassName: "from-sky-400/14 via-cyan-400/8 to-transparent"
+    },
+    {
+      title: "Designer",
+      text: "I design social media creatives, brand visuals, product layouts, banners, and clean UI concepts for digital brands.",
+      icon: getIdentityVisual("designer", 1).icon,
+      accentClassName: "from-violet-400/14 via-fuchsia-400/8 to-transparent"
+    },
+    {
+      title: "Digital Operator",
+      text: "I help manage Shopify and WordPress content, e-commerce updates, product uploads, social content, and campaign support.",
+      icon: Megaphone,
+      accentClassName: "from-amber-300/14 via-orange-300/8 to-transparent"
+    }
   ];
 
-  const socialLinks = [
-    { label: "GitHub", href: siteSettings.github, icon: Github },
-    { label: "LinkedIn", href: siteSettings.linkedIn, icon: Linkedin },
-    { label: "Instagram", href: siteSettings.instagram, icon: Instagram }
-  ].filter((item) => item.href && item.href !== "#");
-
   return (
-    <section id="about" className="relative -mt-10 overflow-hidden px-5 py-14 md:-mt-14 md:px-8 md:py-18">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#080A0F] via-[#080A0F]/16 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_40%,rgba(56,189,248,0.14),transparent_26%),radial-gradient(circle_at_32%_68%,rgba(14,165,233,0.05),transparent_20%)] [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.12)_14%,rgba(0,0,0,0.72)_24%,black_34%,black_100%)]" />
-      <div className="relative mx-auto max-w-7xl">
-        <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7 }} className="relative order-1">
-            <div className="relative mx-auto max-w-[29rem]">
-              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[92%] w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.36),rgba(14,165,233,0.18),rgba(59,130,246,0.06),transparent_74%)] blur-3xl" />
-              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[88%] w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/18" />
-              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[104%] w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-cyan-200/45 [transform:translate(-50%,-50%)_rotate(-18deg)] [mask-image:linear-gradient(135deg,transparent_8%,black_22%,black_74%,transparent_92%)]" />
-              <div className="pointer-events-none absolute left-[57%] top-[56%] h-[86%] w-[84%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-violet-300/22 [transform:translate(-50%,-50%)_rotate(24deg)] [mask-image:linear-gradient(135deg,transparent_16%,black_30%,black_72%,transparent_88%)]" />
+    <section id="about" className="relative px-5 py-20 md:px-8 md:py-24">
+      <div className="mx-auto max-w-7xl">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7 }}
+          className="mx-auto max-w-4xl text-center"
+        >
+          <SectionLabel>About Me</SectionLabel>
+          <h2 className="font-display text-4xl font-semibold tracking-tight text-white md:text-6xl">
+            A creative developer with three connected roles.
+          </h2>
+          <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-400">
+            My work sits between software engineering, visual design, and digital brand operations, allowing me to support projects from idea to launch.
+          </p>
+        </motion.div>
 
-              <div className="relative mx-auto aspect-square w-full max-w-[24rem] overflow-hidden rounded-full border border-cyan-300/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_0_70px_rgba(56,189,248,0.12)]">
-                {imageError ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.2),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.18),transparent_28%),linear-gradient(180deg,#111827,#0b1220)]">
-                    <div className="grid h-28 w-28 place-items-center rounded-full border border-white/10 bg-white/[0.06] text-4xl font-semibold text-white">
-                      NP
-                    </div>
-                  </div>
-                ) : (
-                  <Image
-                    src="/Adithya-profile.png"
-                    alt="Nadun Peiris portrait"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 40vw"
-                    onError={() => setImageError(true)}
-                  />
-                )}
-                <div className="pointer-events-none absolute inset-0 rounded-full border border-white/8" />
-              </div>
-            </div>
-          </motion.div>
+        <div className="mt-14 grid gap-5 lg:grid-cols-3">
+          {roleCards.map((card, index) => {
+            const Icon = card.icon;
 
-          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.06 }} className="relative order-2 max-w-2xl">
-            <div className="pointer-events-none absolute -left-12 top-12 h-44 w-44 rounded-full bg-cyan-400/6 blur-3xl" />
-            <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400">
-              About Me
+            return (
+              <motion.article
+                key={card.title}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.06 }}
+                className={`rounded-[2rem] border border-white/10 bg-gradient-to-br ${card.accentClassName} p-6 shadow-[0_24px_70px_rgba(2,8,23,0.22)] backdrop-blur-xl`}
+              >
+                <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/10 text-white">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-6 font-display text-2xl font-semibold text-white">{card.title}</h3>
+                <p className="mt-4 text-sm leading-7 text-slate-300">{card.text}</p>
+              </motion.article>
+            );
+          })}
+        </div>
+
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.08 }}
+          className="mt-8 rounded-[2rem] border border-white/10 bg-white/[0.035] p-6 backdrop-blur-xl md:p-8"
+        >
+          <div className="grid gap-6 lg:grid-cols-[1.2fr_auto] lg:items-center">
+            <p className="max-w-3xl text-base leading-8 text-slate-300 md:text-lg">
+              I&apos;m a Software Engineering undergraduate from Sri Lanka, combining code, design, and digital execution to create premium online experiences.
             </p>
-            <p className="mt-6 text-base font-medium text-slate-200">
-              Hello, I&apos;m
-            </p>
-            <h2 className="mt-2 font-display text-4xl font-bold tracking-tight text-white md:text-6xl">
-              Nadun Peiris
-            </h2>
-            <p className="mt-3 text-xl font-medium text-slate-100 md:text-2xl">
-              And I&apos;m a <span className="text-sky-300">Creative Software Engineer</span>
-            </p>
-            <p className="mt-6 max-w-xl text-base leading-8 text-slate-400 md:text-lg">
-              I&apos;m a Software Engineering undergraduate from Sri Lanka, blending web development, graphic design, e-commerce support, and social media content to create polished digital experiences for modern brands.
-            </p>
-
-            {socialLinks.length ? (
-              <div className="mt-7 flex flex-wrap gap-2.5">
-                {socialLinks.map((item) => {
-                  const Icon = item.icon;
-
-                  return (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex h-10 w-10 items-center justify-center border border-cyan-300/18 bg-slate-950/35 text-sky-200 transition hover:-translate-y-0.5 hover:border-cyan-300/35 hover:text-white"
-                      aria-label={item.label}
-                    >
-                      <Icon className="h-4 w-4" />
-                    </a>
-                  );
-                })}
-              </div>
-            ) : null}
-
-            <div className="mt-7 flex flex-col gap-4 sm:flex-row">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/work"
-                className="inline-flex min-w-[158px] items-center justify-center gap-2 border border-sky-300/30 bg-[linear-gradient(135deg,rgba(56,189,248,0.34),rgba(14,165,233,0.22))] px-6 py-3.5 font-medium text-cyan-50 shadow-[0_12px_30px_rgba(56,189,248,0.18)] transition hover:border-sky-200/40 hover:bg-[linear-gradient(135deg,rgba(56,189,248,0.42),rgba(14,165,233,0.28))]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-medium text-ink transition hover:scale-[1.02]"
               >
                 View My Work
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex min-w-[158px] items-center justify-center gap-2 border border-white/14 bg-transparent px-6 py-3.5 font-medium text-white transition hover:border-cyan-300/24 hover:bg-white/[0.04]"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/14 px-6 py-3.5 font-medium text-white transition hover:bg-white/[0.04]"
               >
                 Contact Me
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-          </motion.div>
-        </div>
-
-        <div className="mt-14 grid grid-cols-2 gap-y-8 md:grid-cols-4 md:gap-y-0">
-          {stats.map((item, index) => (
-            <div
-              key={item.label}
-              className={`text-center md:px-6 ${index !== 0 ? "md:border-l md:border-white/10" : ""}`}
-            >
-              <p className="font-display text-3xl font-semibold text-white md:text-5xl">
-                {item.value}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                {item.label}
-              </p>
-            </div>
-          ))}
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
