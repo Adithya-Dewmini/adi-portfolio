@@ -5,11 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ArrowRight, Code2, Github, Instagram, LayoutGrid, Linkedin, Mail, MapPin, Megaphone, Play, ShoppingBag, Sparkles, TerminalSquare, Wrench } from "lucide-react";
-import { CreativeProfileSection } from "@/components/home/creative-profile-section";
+import { ArrowRight, Code2, Github, LayoutGrid, Mail, MapPin, Megaphone, Play, ShoppingBag, Sparkles, TerminalSquare, Wrench } from "lucide-react";
 import { DesignPortfolioShowcase } from "@/components/home/design-showcase-section";
 import { FeaturedWorkMarquee } from "@/components/home/featured-work-marquee";
-import { siteSettings } from "@/lib/admin-data";
 import {
   designWork,
   identityCards as defaultIdentityCards,
@@ -168,7 +166,7 @@ function getIdentityVisual(title: string, index: number) {
 export function Hero({
   badge = "Hey there, I’m",
   title = "Nadun Peiris",
-  subtitle = "I create modern websites, brand visuals, e-commerce content, and digital systems that help businesses look professional and work better online.",
+  subtitle = "I build modern digital experiences with clean development, strong visuals, and practical execution.",
   primaryCtaText = "View selected work",
   primaryCtaLink = "/work",
   secondaryCtaText = "Start a project",
@@ -234,12 +232,6 @@ export function Hero({
     { id: "solution-6", title: "THE BEST SOLUTION", subtitle: visibleIdentityCards[2]?.title ?? "Digital Operator", className: "bottom-4 right-8 md:bottom-8 md:right-10", rotate: 6, duration: 6.6 }
   ];
 
-  const socialLinks = [
-    { label: "GitHub", href: siteSettings.github, icon: Github },
-    { label: "LinkedIn", href: siteSettings.linkedIn, icon: Linkedin },
-    { label: "Instagram", href: siteSettings.instagram, icon: Instagram }
-  ].filter((item) => item.href && item.href !== "#");
-
   useEffect(() => {
     const currentRole = HERO_ROLE_CYCLE[activeRoleIndex];
     const isFullyTyped = typedRole === currentRole;
@@ -304,14 +296,11 @@ export function Hero({
             {typedRole}
             <span className="ml-1 inline-block h-6 w-px animate-pulse bg-sky-300 align-middle md:h-8" />
           </p>
-          <p className="mt-4 text-base font-medium text-sky-200 md:text-lg">
-            Developer • Designer • Digital Operator
-          </p>
-          <p className="mt-7 max-w-xl text-lg leading-8 text-slate-300 md:text-xl">
+          <p className="mt-6 max-w-lg text-lg leading-8 text-slate-300 md:text-xl">
             {subtitle}
           </p>
 
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
             <Link
               href={primaryCtaLink}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-sky-300/30 bg-[linear-gradient(135deg,rgba(56,189,248,0.34),rgba(14,165,233,0.2))] px-7 py-4 font-medium text-cyan-50 shadow-[0_14px_32px_rgba(56,189,248,0.18)] transition hover:border-sky-200/40 hover:bg-[linear-gradient(135deg,rgba(56,189,248,0.42),rgba(14,165,233,0.28))]"
@@ -329,16 +318,6 @@ export function Hero({
               {secondaryCtaText}
             </Link>
           </div>
-
-          {socialLinks.length ? (
-            <div className="mt-8 flex flex-wrap items-center gap-5 text-sm font-medium uppercase tracking-[0.18em] text-slate-400">
-              {socialLinks.map((item) => (
-                <a key={item.label} href={item.href} target="_blank" rel="noreferrer" className="transition hover:text-sky-200">
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          ) : null}
         </motion.div>
 
         <motion.div
@@ -454,12 +433,7 @@ export function WorkSection({
 export function DesignSection({
   items = designWork.map((item) => ({ title: item }))
 }: DesignSectionProps) {
-  return (
-    <>
-      <CreativeProfileSection />
-      <DesignPortfolioShowcase items={items} />
-    </>
-  );
+  return <DesignPortfolioShowcase items={items} />;
 }
 
 export function ServicesSection({
@@ -639,6 +613,20 @@ export function ProcessSection() {
 
 export function AboutSection() {
   const [imageError, setImageError] = useState(false);
+  const focusAreas = [
+    {
+      title: "Design-aware development",
+      text: "I build with visual direction in mind, so the final website feels polished, not just functional."
+    },
+    {
+      title: "Brand-focused thinking",
+      text: "I think about layout, content, visuals, and user flow together."
+    },
+    {
+      title: "Practical execution",
+      text: "I support real business needs like updates, campaigns, and e-commerce changes."
+    }
+  ];
 
   const stats = [
     { value: "3+", label: "Creative disciplines" },
@@ -647,14 +635,8 @@ export function AboutSection() {
     { value: "100%", label: "Brand-focused workflow" }
   ];
 
-  const socialLinks = [
-    { label: "GitHub", href: siteSettings.github, icon: Github },
-    { label: "LinkedIn", href: siteSettings.linkedIn, icon: Linkedin },
-    { label: "Instagram", href: siteSettings.instagram, icon: Instagram }
-  ].filter((item) => item.href && item.href !== "#");
-
   return (
-    <section id="about" className="relative -mt-10 overflow-hidden px-5 py-14 md:-mt-14 md:px-8 md:py-18">
+    <section id="about" className="relative overflow-hidden px-5 py-20 md:px-8 md:py-24">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#080A0F] via-[#080A0F]/16 to-transparent" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_40%,rgba(56,189,248,0.14),transparent_26%),radial-gradient(circle_at_32%_68%,rgba(14,165,233,0.05),transparent_20%)] [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.12)_14%,rgba(0,0,0,0.72)_24%,black_34%,black_100%)]" />
       <div className="relative mx-auto max-w-7xl">
@@ -693,39 +675,25 @@ export function AboutSection() {
             <p className="text-sm font-medium uppercase tracking-[0.24em] text-slate-400">
               About Me
             </p>
-            <p className="mt-6 text-base font-medium text-slate-200">
-              Hello, I&apos;m
-            </p>
-            <h2 className="mt-2 font-display text-4xl font-bold tracking-tight text-white md:text-6xl">
-              Nadun Peiris
+            <h2 className="mt-6 max-w-xl font-display text-4xl font-bold tracking-tight text-white md:text-6xl">
+              Shaping the full digital experience.
             </h2>
-            <p className="mt-3 text-xl font-medium text-slate-100 md:text-2xl">
-              And I&apos;m a <span className="text-sky-300">Creative Software Engineer</span>
-            </p>
             <p className="mt-6 max-w-xl text-base leading-8 text-slate-400 md:text-lg">
-              I&apos;m a Software Engineering undergraduate from Sri Lanka, blending web development, graphic design, e-commerce support, and social media content to create polished digital experiences for modern brands.
+              I work where clean development, strong visuals, and practical execution meet, so the final result feels clear and professional.
             </p>
 
-            {socialLinks.length ? (
-              <div className="mt-7 flex flex-wrap gap-2.5">
-                {socialLinks.map((item) => {
-                  const Icon = item.icon;
-
-                  return (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex h-10 w-10 items-center justify-center border border-cyan-300/18 bg-slate-950/35 text-sky-200 transition hover:-translate-y-0.5 hover:border-cyan-300/35 hover:text-white"
-                      aria-label={item.label}
-                    >
-                      <Icon className="h-4 w-4" />
-                    </a>
-                  );
-                })}
-              </div>
-            ) : null}
+            <div className="mt-7 grid gap-3 sm:grid-cols-3">
+              {focusAreas.map((item) => (
+                <div key={item.title} className="rounded-[1.4rem] border border-white/10 bg-white/[0.03] px-4 py-4 backdrop-blur-xl">
+                  <p className="text-sm font-semibold text-white">
+                    {item.title}
+                  </p>
+                  <p className="mt-2 text-sm leading-5 text-slate-400">
+                    {item.text}
+                  </p>
+                </div>
+              ))}
+            </div>
 
             <div className="mt-7 flex flex-col gap-4 sm:flex-row">
               <Link
@@ -739,7 +707,7 @@ export function AboutSection() {
                 href="/contact"
                 className="inline-flex min-w-[158px] items-center justify-center gap-2 border border-white/14 bg-transparent px-6 py-3.5 font-medium text-white transition hover:border-cyan-300/24 hover:bg-white/[0.04]"
               >
-                Contact Me
+                Start a Project
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

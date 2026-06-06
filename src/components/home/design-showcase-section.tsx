@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface DesignShowcaseItem {
@@ -51,12 +51,6 @@ const fallbackCards = [
     category: "Commerce Support",
     subtitle: "Collection banners and product-focused store visuals.",
     accentClassName: "from-amber-300/24 via-orange-300/10 to-slate-950"
-  },
-  {
-    title: "UI & Website Visuals",
-    category: "UI Design",
-    subtitle: "Visual systems that support interfaces and landing pages.",
-    accentClassName: "from-emerald-400/20 via-cyan-400/10 to-slate-950"
   }
 ];
 
@@ -66,7 +60,7 @@ function getSafeImageUrl(value?: string) {
 }
 
 function getShowcaseItems(items: DesignShowcaseItem[]) {
-  const source = items.slice(0, 6);
+  const source = items.slice(0, 5);
 
   return fallbackCards.map((fallback, index) => ({
     title: source[index]?.title ?? fallback.title,
@@ -77,17 +71,73 @@ function getShowcaseItems(items: DesignShowcaseItem[]) {
   }));
 }
 
-function getHeightClassName(index: number) {
-  const pattern = [
-    "min-h-[24rem]",
-    "min-h-[20rem]",
-    "min-h-[23rem]",
-    "min-h-[21rem]",
-    "min-h-[24rem]",
-    "min-h-[20rem]"
-  ];
+function VisualCard({ item, index }: { item: ReturnType<typeof getShowcaseItems>[number]; index: number }) {
+  const safeUrl = getSafeImageUrl(item.imageUrl);
 
-  return pattern[index % pattern.length];
+  return (
+    <motion.article
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      transition={{ duration: 0.55, delay: index * 0.06 }}
+      whileHover={{ y: -6 }}
+      className="group relative w-[280px] shrink-0 overflow-hidden rounded-[2rem] border border-white/10 bg-[#08101c] shadow-[0_28px_70px_rgba(2,8,23,0.42)] sm:w-[300px]"
+    >
+      <div className="relative aspect-[9/16]">
+        {safeUrl ? (
+          <Image
+            src={safeUrl}
+            alt={item.title}
+            fill
+            className="object-cover transition duration-500 group-hover:scale-[1.03]"
+            sizes="(max-width: 767px) 280px, 300px"
+          />
+        ) : (
+          <div className={`absolute inset-0 bg-gradient-to-br ${item.accentClassName}`}>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.16),transparent_30%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.22),transparent_34%)]" />
+          </div>
+        )}
+
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.12),rgba(3,8,18,0)_28%,rgba(3,8,18,0.06)_46%,rgba(3,8,18,0.72)_100%)]" />
+
+        <div className="absolute inset-x-4 top-4 flex items-start justify-between gap-3">
+          <div className="rounded-2xl border border-white/10 bg-[#060b14]/78 px-4 py-3 backdrop-blur-xl">
+            <p className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-slate-400">
+              Visual Work
+            </p>
+            <h3 className="mt-1 max-w-[12rem] text-lg font-semibold leading-6 text-white">
+              {item.title}
+            </h3>
+            <p className="mt-1 text-sm text-slate-300">
+              {item.category}
+            </p>
+          </div>
+
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-cyan-300/16 bg-cyan-300/10 backdrop-blur-xl">
+            <Sparkles className="h-5 w-5 text-sky-200" />
+          </div>
+        </div>
+
+        <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-4">
+          <div className="rounded-2xl border border-white/10 bg-[#060b14]/78 px-4 py-3 backdrop-blur-xl">
+            <p className="max-w-[13rem] text-sm leading-6 text-slate-200">
+              {item.subtitle}
+            </p>
+          </div>
+
+          <Link
+            href="/work#design-work"
+            className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-cyan-300/20 bg-[linear-gradient(135deg,rgba(56,189,248,0.92),rgba(14,165,233,0.82))] text-slate-950 shadow-[0_16px_40px_rgba(56,189,248,0.28)] transition hover:scale-105"
+            aria-label="View design portfolio"
+          >
+            <ArrowUpRight className="h-5 w-5" />
+          </Link>
+        </div>
+      </div>
+    </motion.article>
+  );
 }
 
 export function DesignPortfolioShowcase({ items = [] }: Readonly<DesignPortfolioShowcaseProps>) {
@@ -102,87 +152,27 @@ export function DesignPortfolioShowcase({ items = [] }: Readonly<DesignPortfolio
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7 }}
-          className="mb-12 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
+          className="mx-auto max-w-4xl text-center"
         >
-          <div className="max-w-3xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300">
-              <Sparkles className="h-4 w-4 text-sky-300" />
-              Selected Visual Work
-            </div>
-            <h2 className="font-display text-4xl font-semibold tracking-tight text-white md:text-6xl">
-              Design work that supports brands, products, and campaigns.
-            </h2>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-400 md:text-lg">
-              A preview of social media creatives, product visuals, campaign layouts, and brand-focused digital content.
-            </p>
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-sm text-slate-300">
+            <span className="h-2.5 w-2.5 rounded-full bg-sky-400" />
+            Selected Visuals
           </div>
-
-          <Link
-            href="/work#design-work"
-            className="inline-flex items-center gap-2 self-start rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 text-sm font-medium text-white transition hover:border-cyan-300/40 hover:bg-white/[0.08] hover:text-cyan-100 lg:self-auto"
-          >
-            View Full Design Portfolio
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+          <h2 className="font-display text-5xl font-semibold uppercase leading-none tracking-tight text-white md:text-7xl">
+            Selected{" "}
+            <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(56,189,248,0.95)]">
+              Visuals
+            </span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-400 md:text-xl">
+            A curated selection of campaign creatives, product visuals, and brand-focused digital design work.
+          </p>
         </motion.div>
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {showcaseItems.map((item, index) => {
-            const safeUrl = getSafeImageUrl(item.imageUrl);
-
-            return (
-              <motion.article
-                key={`${item.title}-${index}`}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                whileHover={{ y: -8 }}
-                transition={{ duration: 0.45, delay: index * 0.05 }}
-                className={`group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.04] p-4 shadow-[0_26px_80px_rgba(2,8,23,0.38)] backdrop-blur-xl ${getHeightClassName(index)}`}
-              >
-                <div className="relative mb-5 h-56 overflow-hidden rounded-[24px] border border-white/10 bg-slate-950">
-                  {safeUrl ? (
-                    <Image
-                      src={safeUrl}
-                      alt={item.title}
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-[1.04]"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                    />
-                  ) : (
-                    <div className={`absolute inset-0 bg-gradient-to-br ${item.accentClassName}`}>
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.16),transparent_26%)]" />
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.14),transparent_30%)]" />
-                      <div className="absolute inset-x-5 bottom-5 grid grid-cols-4 gap-2 opacity-80">
-                        {Array.from({ length: 8 }).map((_, blockIndex) => (
-                          <div key={`${item.title}-${blockIndex}`} className="h-8 rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-sm" />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/82 via-slate-950/14 to-transparent" />
-                  <div className="absolute left-4 top-4">
-                    <span className="inline-flex rounded-full border border-white/10 bg-slate-950/65 px-3 py-1 text-[0.65rem] uppercase tracking-[0.22em] text-slate-300 backdrop-blur-md">
-                      {item.category}
-                    </span>
-                  </div>
-                  <div className="absolute bottom-4 right-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white backdrop-blur-md transition group-hover:scale-105">
-                    <ArrowUpRight className="h-4 w-4" />
-                  </div>
-                </div>
-
-                <div className="px-1 pb-1">
-                  <h3 className="font-display text-2xl font-semibold tracking-tight text-white">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-400">
-                    {item.subtitle}
-                  </p>
-                </div>
-              </motion.article>
-            );
-          })}
+        <div className="no-scrollbar mt-14 flex gap-5 overflow-x-auto pb-4 sm:gap-6 lg:justify-center">
+          {showcaseItems.map((item, index) => (
+            <VisualCard key={`${item.title}-${index}`} item={item} index={index} />
+          ))}
         </div>
       </div>
     </section>
