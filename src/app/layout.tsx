@@ -10,12 +10,12 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Nadun Peiris | Creative Software Engineer",
-  description: "Premium portfolio of Nadun Peiris, a software engineering undergraduate, web developer, graphic designer, and digital creative.",
-  keywords: ["Nadun Peiris", "Software Engineer", "Portfolio", "Next.js", "Graphic Designer", "Sri Lanka"],
-  authors: [{ name: "Nadun Peiris" }],
+  title: "Adithya Dewmini | Creative Software Engineer",
+  description: "Premium portfolio of Adithya Dewmini, a software engineering undergraduate, web developer, graphic designer, and digital creative.",
+  keywords: ["Adithya Dewmini", "Software Engineer", "Portfolio", "Next.js", "Graphic Designer", "Sri Lanka"],
+  authors: [{ name: "Adithya Dewmini" }],
   openGraph: {
-    title: "Nadun Peiris | Creative Software Engineer",
+    title: "Adithya Dewmini | Creative Software Engineer",
     description: "Code, design, and digital brand work in one premium portfolio.",
     type: "website"
   }

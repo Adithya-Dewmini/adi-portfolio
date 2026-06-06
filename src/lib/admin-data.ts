@@ -684,11 +684,11 @@ export const recentActivity: RecentActivityItem[] = [
 ];
 
 export const siteSettings: SiteSettings = {
-  siteName: "Nadun Peiris Portfolio",
+  siteName: "Adithya Dewmini Portfolio",
   tagline: "Creative developer building premium digital experiences.",
   logoUrl: "https://example.com/logo.svg",
   faviconUrl: "https://example.com/favicon.png",
-  fullName: "Nadun Peiris",
+  fullName: "Adithya Dewmini",
   professionalTitle: "Creative Full-Stack Developer",
   shortBio: "Full-stack developer, designer, freelancer, and digital creative helping brands build polished online experiences.",
   location: "Sri Lanka",
@@ -700,8 +700,8 @@ export const siteSettings: SiteSettings = {
   instagram: "https://www.instagram.com/nadunpeiris",
   behance: "https://www.behance.net/nadunpeiris",
   cvUrl: "https://example.com/nadun-peiris-cv.pdf",
-  defaultMetaTitle: "Nadun Peiris | Creative Full-Stack Developer",
-  defaultMetaDescription: "Portfolio of Nadun Peiris — code, design, digital brand work, and modern portfolio experiences.",
+  defaultMetaTitle: "Adithya Dewmini | Creative Full-Stack Developer",
+  defaultMetaDescription: "Portfolio of Adithya Dewmini — code, design, digital brand work, and modern portfolio experiences.",
   defaultOgImageUrl: "https://example.com/og-image.jpg",
   darkModeEnabled: true,
   dashboardCompactMode: false

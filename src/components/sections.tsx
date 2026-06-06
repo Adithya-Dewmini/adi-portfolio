@@ -117,9 +117,9 @@ export function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/70 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
         <Link href="/" className="group flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-sm font-semibold text-ink transition group-hover:rotate-6">NP</span>
+          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white text-sm font-semibold text-ink transition group-hover:rotate-6">AD</span>
           <span className="hidden leading-tight sm:block">
-            <span className="block font-display font-semibold text-white">Nadun Peiris</span>
+            <span className="block font-display font-semibold text-white">Adithya Dewmini</span>
             <span className="block text-xs text-slate-400">Creative Software Engineer</span>
           </span>
         </Link>
@@ -165,7 +165,7 @@ function getIdentityVisual(title: string, index: number) {
 
 export function Hero({
   badge = "Hey there, I’m",
-  title = "Nadun Peiris",
+  title = "Adithya Dewmini",
   subtitle = "I build modern digital experiences with clean development, strong visuals, and practical execution.",
   primaryCtaText = "View selected work",
   primaryCtaLink = "/work",
@@ -221,7 +221,7 @@ export function Hero({
     };
   });
 
-  const heroName = title.trim().split(/\s+/).length <= 4 ? title : "Nadun Peiris";
+  const heroName = title.trim().split(/\s+/).length <= 4 ? title : "Adithya Dewmini";
   const heroIntro = badge.trim() || "Hey There!";
   const floatingCards = [
     { id: "solution-1", title: "THE BEST SOLUTION", subtitle: visibleIdentityCards[0]?.title ?? "Developer", className: "-left-2 top-10 md:left-0 md:top-16", rotate: -8, duration: 6.2 },
@@ -391,13 +391,13 @@ export function Hero({
                     {heroImageError ? (
                       <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.2),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.18),transparent_30%),linear-gradient(180deg,#111827,#0b1220)]">
                         <div className="grid h-28 w-28 place-items-center rounded-full border border-white/10 bg-white/[0.06] text-4xl font-semibold text-white">
-                          NP
+                          AD
                         </div>
                       </div>
                     ) : (
                       <Image
                         src="/Adithya-profile.png"
-                        alt="Nadun Peiris portrait"
+                        alt="Adithya Dewmini portrait"
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 90vw, 40vw"
@@ -652,13 +652,13 @@ export function AboutSection() {
                 {imageError ? (
                   <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.2),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.18),transparent_28%),linear-gradient(180deg,#111827,#0b1220)]">
                     <div className="grid h-28 w-28 place-items-center rounded-full border border-white/10 bg-white/[0.06] text-4xl font-semibold text-white">
-                      NP
+                      AD
                     </div>
                   </div>
                 ) : (
                   <Image
                     src="/Adithya-profile.png"
-                    alt="Nadun Peiris portrait"
+                    alt="Adithya Dewmini portrait"
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 40vw"
@@ -775,7 +775,7 @@ export function Footer() {
   return (
     <footer className="border-t border-white/10 px-5 py-8 md:px-8">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-slate-500 md:flex-row">
-        <p>© {new Date().getFullYear()} Nadun Peiris. Built with Next.js.</p>
+        <p>© {new Date().getFullYear()} Adithya Dewmini. Built with Next.js.</p>
         <p>Code + Design + Digital</p>
       </div>
     </footer>
